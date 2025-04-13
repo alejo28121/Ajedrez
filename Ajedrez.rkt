@@ -572,4 +572,4 @@
         (~a (string-ref blackPiezes index))
     )
 )
-(DrawPiezes "TCARYACTPPPPPPPp--------------------------------Pppppppptcaryact" 0 0)
+(DrawPiezes "TCARYACTPPPPPPPP--------------------------------pppppppptcaryact" 0 0)
