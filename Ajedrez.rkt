@@ -1043,29 +1043,23 @@
     (printf "~a\n~a\n~a\n" positions posKingW blackPiezes)
     (if (= step 1)
         (if (= turn 0)
-            (if (and (< posKingW 64) (> posKingW 55))
-                (if (MoveKing positions (- posKingW 1) posKingW #\z (remainder posKingW 8) (remainder (- posKingW 1) 8) (quotient posKingW 8) (quotient (- posKingW 1) 8) turn blackPiezes 0)
+            (if (MoveKing positions (- posKingW counter) posKingW #\z (remainder posKingW 8) (remainder (- posKingW counter) 8) (quotient posKingW 8) (quotient (- posKingW counter) 8) turn blackPiezes 0)
+                #f
+                (if (MoveKing positions (+ posKingW counter) posKingW #\z (remainder posKingW 8) (remainder (+ posKingW counter) 8) (quotient posKingW 8) (quotient (+ posKingW counter) 8) turn blackPiezes 0)
                     #f
-                    (if (MoveKing positions (+ posKingW 1) posKingW #\z (remainder posKingW 8) (remainder (+ posKingW 1) 8) (quotient posKingW 8) (quotient (+ posKingW 1) 8) turn blackPiezes 0)
-                        #f
-                        (if (MoveKing positions (- posKingW 9) posKingW #\z (remainder posKingW 8) (remainder (- posKingW 9) 8) (quotient posKingW 8) (quotient (- posKingW 9) 8) turn blackPiezes 0)
-                            #f
-                            (if (MoveKing positions (- posKingW 8) posKingW #\z (remainder posKingW 8) (remainder (- posKingW 8) 8) (quotient posKingW 8) (quotient (- posKingW 8) 8) turn blackPiezes 0)
-                                #f
-                                (if (MoveKing positions (- posKingW 7) posKingW #\z (remainder posKingW 7) (remainder (- posKingW 7) 8) (quotient posKingW 8) (quotient (- posKingW 7) 8) turn blackPiezes 0)
-                                    #f
-                                    #t
-                                )
-                            )
+                    (if (= counter 1)
+                        (VerificateJaqueMate positions (+ counter 7) step turn)
+                        (if (< counter 10)
+                            (VerificateJaqueMate positions (+ counter 1) step turn)
+                            #t
                         )
                     )
                 )
-                (void)
             )
             (void)
         )
         (void)
     )
 )
-;(DrawPiezes "TCARYACTPPPPPPPP--------------------------------pppppppptcaryact" 0 0 0 #\t 0)
-(DrawPiezes "TCARYA-TPPPPPPPP----p---------------------------pppp-pCptcaryact" 0 0 0 #\t 0)
+(DrawPiezes "TCARYACTPPPPPPPP--------------------------------pppppppptcaryact" 0 0 0 #\t 0)
+;(DrawPiezes "TCARYA-TPPPPPPPP----p---------------------------pppp-pCptcaryact" 63 0 0 #\t 1)
