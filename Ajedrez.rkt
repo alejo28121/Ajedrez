@@ -5,7 +5,6 @@
 ((draw-pixmap board) "TableroAjedrez.png" (make-posn 0 0))
 (define (DrawPiezes positions counter turn jaqueState lPieze lIndex prePosition)
     (define (JaquePieze index key)
-        (printf "~a=~a\n" index (string-ref positions index))
         (if (= key index)
             (- index 1)
             index
