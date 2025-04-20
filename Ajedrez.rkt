@@ -1,8 +1,30 @@
 #lang racket
+#|
+- Autor: Ing(c) Alejandro Grajales Vargas
+- Nombre del lenguaje utilizado: Racket
+- Versión del lenguaje utilizado: 8.15
+- Presentado a: Doctor Ricardo Moreno Laverde
+- Universidad Tecnológica de Pereira
+- Programa de Ingeniería de Sistemas y Computación
+- Descriptivo del programa: Este programa les permite a dos(2) jugadores jugar con las reglas del ajedrez de movimiento y ataque teniendo en cuenta solo el jaque, jaque mate y coronacion de peones.
+- Nota: En cualquier momento de la partida cualquier jugador puede detener el juego mediante el boton de "Terminar".
+|#
 (require graphics/graphics)
 (open-graphics)
 (define board (open-viewport "Ajedrez" 800 600))
 ((draw-pixmap board) "TableroAjedrez.png" (make-posn 0 0))
+#|
+1. DrawPiezes
+Purpose: Draws the chess pieces on the board based on their positions and handles the game state, including check and checkmate detection.
+Parameters:
+positions: A string representing the positions of all pieces on the board.
+counter: Tracks the current index being processed.
+turn: Indicates the current player's turn (0 for white, 1 for black).
+jaqueState: Indicates if the king is in check (1 for check, 0 otherwise).
+lPieze: Last piece moved.
+lIndex: Index of the last piece moved.
+prePosition: Previous board state.
+|#
 (define (DrawPiezes positions counter turn jaqueState lPieze lIndex prePosition)
     (define (JaquePieze index key)
         (if (= key index)
@@ -172,6 +194,17 @@
         )
     )
 )
+#|
+2. GetPosition
+Purpose: Captures the position of a mouse click and determines the selected piece.
+Parameters:
+pieces: Current board state.
+preIndex: Index of the previously selected piece.
+prePieze: Previously selected piece.
+preX, preY: Previous coordinates of the selected piece.
+turn: Current player's turn.
+jaqueState: Indicates if the king is in check.
+|#
 (define (GetPosition pieces preIndex prePieze preX preY turn jaqueState)
     (define position (mouse-click-posn (get-mouse-click board)))
     (if (and (> (posn-x position) 99) (> (posn-y position) 99) (< (posn-x position) 501) (< (posn-y position) 501))
@@ -187,6 +220,20 @@
     (define pieze (string-ref pieces index))
     (PlayGame pieces pieze index prePieze preIndex preX positionX preY positionY turn jaqueState)
 )
+#|
+3. PlayGame
+Purpose: Main game logic, handles piece selection and movement.
+Parameters:
+positions: Current board state.
+selectPieze: Selected piece.
+selectPiezeIndex: Index of the selected piece.
+prePieze: Previously selected piece.
+preIndex: Index of the previously selected piece.
+preX, posX: Previous and current X coordinates.
+preY, posY: Previous and current Y coordinates.
+turn: Current player's turn.
+jaqueState: Indicates if the king is in check.
+|#
 (define (PlayGame positions selectPieze selectPiezeIndex prePieze preIndex preX posX preY posY turn jaqueState)
     (define blackPiezes "-TCARYP")
     (define whitePiezes "-tcaryp")
@@ -288,6 +335,20 @@
     )
     (GetPosition positions 0 #\L 0 0 turn jaqueState)
 )
+#|
+4. MoveTorreAndQueen
+Purpose: Handles the movement of the rook and queen along straight paths (horizontal and vertical).
+Parameters:
+positions: Current board state.
+selectPiezeIndex: Index of the selected piece.
+preIndex: Index of the previously selected piece.
+key: Piece type (T for black rook, t for white rook, etc.).
+preX, posX: Previous and current X coordinates.
+preY, posY: Previous and current Y coordinates.
+turn: Current player's turn.
+piezes: String representing the pieces of the current player.
+jaqueState: Indicates if the king is in check.
+|#
 (define (MoveTorreAndQueen positions selectPiezeIndex preIndex key preX posX preY posY turn piezes jaqueState)
     (define (VerificateObstaclesT positions indexI indexS keySide)
         (if (equal? keySide #\B)
@@ -540,6 +601,11 @@
         )
     )
 )
+#|
+5. MoveAlfilAndQueen
+Purpose: Handles the movement of the bishop and queen along diagonal paths.
+Parameters: Same as MoveTorreAndQueen.
+|#
 (define (MoveAlfilAndQueen positions selectPiezeIndex preIndex key preX posX preY posY turn piezes jaqueState)
     (define (VerificateObstacles positions indexI indexS keySide)
         (if (or (= indexI (- indexS 7)) (= indexI (+ indexS 7)) (= indexI (- indexS 9)) (= indexI (+ indexS 9)))
@@ -795,6 +861,11 @@
         )
     )
 )
+#|
+6. MovePeon
+Purpose: Handles the movement of pawns, including capturing and promotion.
+Parameters: Same as MoveTorreAndQueen.
+|#
 (define (MovePeon positions selectPiezeIndex preIndex key preX posX preY posY turn piezes jaqueState)
     (if (or (equal? key #\P) (equal? key #\V) (equal? key #\Z))
         (if (and (> preIndex 7) (< preIndex 16) (= selectPiezeIndex (+ preIndex 16)))
@@ -973,6 +1044,11 @@
         )
     )
 )
+#|
+7. MoveHorse
+Purpose: Handles the movement of knights.
+Parameters: Same as MoveTorreAndQueen.
+|#
 (define (MoveHorse positions selectPiezeIndex preIndex key preX posX preY posY turn piezes jaqueState)
     (if (or (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 0)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 1)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 2)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 3)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 4)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 5)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 6)))
         (if (< preY posY)
@@ -1249,6 +1325,11 @@
         )
     )
 )
+#|
+8. MoveKing
+Purpose: Handles the movement of the king, including castling and avoiding check.
+Parameters: Same as MoveTorreAndQueen.
+|#
 (define (MoveKing positions selectPiezeIndex preIndex key preX posX preY posY turn piezes jaqueState)
     (if (or (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 0)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 1)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 2)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 3)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 4)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 5)) (equal? (string-ref positions selectPiezeIndex) (string-ref piezes 6)))
         (if (< preY posY)
@@ -1426,6 +1507,12 @@
         )
     )
 )
+#|
+9. Coronation
+Purpose: Handles pawn promotion, allowing the player to select a new piece (queen, rook, bishop, or knight).
+Parameters:
+key: Indicates the color of the pawn being promoted (p for white, P for black).
+|#
 (define (Coronation key)
     (define coronation (open-viewport "Coronacion de peones" 400 200))
     (define blackPiezes "RTCA")
@@ -1444,6 +1531,16 @@
         (~a (string-ref blackPiezes index))
     )
 )
+#|
+10. DetectJaque
+Purpose: Detects if a king is in check by verifying if any opposing piece can attack the king.
+Parameters:
+positions: Current board state.
+piezeV: Piece being checked for attacks.
+indexV: Index of the piece being checked.
+turn: Current player's turn.
+jaqueState: Indicates if the king is in check.
+|#
 (define (DetectJaque positions piezeV indexV turn jaqueState)
     (define (SearchKing search count)
         (if (< count (string-length positions))
@@ -1529,6 +1626,19 @@
         jaqueState
     )
 )
+#|
+11. VerificateJaqueMate
+Purpose: Verifies if the current player is in checkmate by testing all possible moves.
+Parameters:
+positions: Current board state.
+counter: Tracks the current index being processed.
+step: Indicates the current step in the checkmate verification process.
+turn: Current player's turn.
+jaqueIndex: Index of the piece causing the check.
+posKing: Index of the king being checked.
+piezes: String representing the pieces of the opposing player.
+fPiezes: String representing the pieces of the current player.
+|#
 (define (VerificateJaqueMate positions counter step turn jaqueIndex posKing piezes fPiezes)
     (define (TestPos value counte)
         (if (< counte (string-length value))
@@ -1697,6 +1807,14 @@
         )
     )
 )
+#|
+12. VerificateMoveJaque
+Purpose: Verifies if any move can remove the check state.
+Parameters:
+positions: Current board state.
+counter: Tracks the current index being processed.
+turn: Current player's turn.
+|#
 (define (VerificateMoveJaque positions counter turn)
     (if (< counter (string-length positions))
         (if (= (DetectJaque positions (string-ref positions counter) counter turn 0) 1)
