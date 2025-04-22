@@ -17,13 +17,13 @@
 1. DrawPiezes
 Purpose: Draws the chess pieces on the board based on their positions and handles the game state, including check and checkmate detection.
 Parameters:
-positions: A string representing the positions of all pieces on the board.
-counter: Tracks the current index being processed.
-turn: Indicates the current player's turn (0 for white, 1 for black).
-jaqueState: Indicates if the king is in check (1 for check, 0 otherwise).
-lPieze: Last piece moved.
-lIndex: Index of the last piece moved.
-prePosition: Previous board state.
+-positions: A string representing the positions of all pieces on the board.
+-counter: Tracks the current index being processed.
+-turn: Indicates the current player's turn (0 for white, 1 for black).
+-jaqueState: Indicates if the king is in check (1 for check, 0 otherwise).
+-lPieze: Last piece moved.
+-lIndex: Index of the last piece moved.
+-prePosition: Previous board state.
 |#
 (define (DrawPiezes positions counter turn jaqueState lPieze lIndex prePosition)
     (define (JaquePieze index key)
@@ -222,12 +222,12 @@ prePosition: Previous board state.
 2. GetPosition
 Purpose: Captures the position of a mouse click and determines the selected piece.
 Parameters:
-pieces: Current board state.
-preIndex: Index of the previously selected piece.
-prePieze: Previously selected piece.
-preX, preY: Previous coordinates of the selected piece.
-turn: Current player's turn.
-jaqueState: Indicates if the king is in check.
+-pieces: Current board state.
+-preIndex: Index of the previously selected piece.
+-prePieze: Previously selected piece.
+-preX, preY: Previous coordinates of the selected piece.
+-turn: Current player's turn.
+-jaqueState: Indicates if the king is in check.
 |#
 (define (GetPosition pieces preIndex prePieze preX preY turn jaqueState)
     (define position (mouse-click-posn (get-mouse-click board)))
@@ -248,15 +248,15 @@ jaqueState: Indicates if the king is in check.
 3. PlayGame
 Purpose: Main game logic, handles piece selection and movement.
 Parameters:
-positions: Current board state.
-selectPieze: Selected piece.
-selectPiezeIndex: Index of the selected piece.
-prePieze: Previously selected piece.
-preIndex: Index of the previously selected piece.
-preX, posX: Previous and current X coordinates.
-preY, posY: Previous and current Y coordinates.
-turn: Current player's turn.
-jaqueState: Indicates if the king is in check.
+-positions: Current board state.
+-selectPieze: Selected piece.
+-selectPiezeIndex: Index of the selected piece.
+-prePieze: Previously selected piece.
+-preIndex: Index of the previously selected piece.
+-preX, posX: Previous and current X coordinates.
+-preY, posY: Previous and current Y coordinates.
+-turn: Current player's turn.
+-jaqueState: Indicates if the king is in check.
 |#
 (define (PlayGame positions selectPieze selectPiezeIndex prePieze preIndex preX posX preY posY turn jaqueState)
     (define blackPiezes "-TCARYP")
@@ -363,15 +363,15 @@ jaqueState: Indicates if the king is in check.
 4. MoveTorreAndQueen
 Purpose: Handles the movement of the rook and queen along straight paths (horizontal and vertical).
 Parameters:
-positions: Current board state.
-selectPiezeIndex: Index of the selected piece.
-preIndex: Index of the previously selected piece.
-key: Piece type (T for black rook, t for white rook, etc.).
-preX, posX: Previous and current X coordinates.
-preY, posY: Previous and current Y coordinates.
-turn: Current player's turn.
-piezes: String representing the pieces of the current player.
-jaqueState: Indicates if the king is in check.
+-positions: Current board state.
+-selectPiezeIndex: Index of the selected piece.
+-preIndex: Index of the previously selected piece.
+-key: Piece type (T for black rook, t for white rook, etc.).
+-preX, posX: Previous and current X coordinates.
+-preY, posY: Previous and current Y coordinates.
+-turn: Current player's turn.
+-piezes: String representing the pieces of the current player.
+-jaqueState: Indicates if the king is in check.
 |#
 (define (MoveTorreAndQueen positions selectPiezeIndex preIndex key preX posX preY posY turn piezes jaqueState)
     (define (VerificateObstaclesT positions indexI indexS keySide)
@@ -1535,7 +1535,7 @@ Parameters: Same as MoveTorreAndQueen.
 9. Coronation
 Purpose: Handles pawn promotion, allowing the player to select a new piece (queen, rook, bishop, or knight).
 Parameters:
-key: Indicates the color of the pawn being promoted (p for white, P for black).
+-key: Indicates the color of the pawn being promoted (p for white, P for black).
 |#
 (define (Coronation key)
     (define coronation (open-viewport "Coronacion de peones" 400 200))
@@ -1559,11 +1559,11 @@ key: Indicates the color of the pawn being promoted (p for white, P for black).
 10. DetectJaque
 Purpose: Detects if a king is in check by verifying if any opposing piece can attack the king.
 Parameters:
-positions: Current board state.
-piezeV: Piece being checked for attacks.
-indexV: Index of the piece being checked.
-turn: Current player's turn.
-jaqueState: Indicates if the king is in check.
+-positions: Current board state.
+-piezeV: Piece being checked for attacks.
+-indexV: Index of the piece being checked.
+-turn: Current player's turn.
+-jaqueState: Indicates if the king is in check.
 |#
 (define (DetectJaque positions piezeV indexV turn jaqueState)
     (define (SearchKing search count)
@@ -1654,14 +1654,14 @@ jaqueState: Indicates if the king is in check.
 11. VerificateJaqueMate
 Purpose: Verifies if the current player is in checkmate by testing all possible moves.
 Parameters:
-positions: Current board state.
-counter: Tracks the current index being processed.
-step: Indicates the current step in the checkmate verification process.
-turn: Current player's turn.
-jaqueIndex: Index of the piece causing the check.
-posKing: Index of the king being checked.
-piezes: String representing the pieces of the opposing player.
-fPiezes: String representing the pieces of the current player.
+-positions: Current board state.
+-counter: Tracks the current index being processed.
+-step: Indicates the current step in the checkmate verification process.
+-turn: Current player's turn.
+-jaqueIndex: Index of the piece causing the check.
+-posKing: Index of the king being checked.
+-piezes: String representing the pieces of the opposing player.
+-fPiezes: String representing the pieces of the current player.
 |#
 (define (VerificateJaqueMate positions counter step turn jaqueIndex posKing piezes fPiezes)
     (define (TestPos value counte)
@@ -1835,9 +1835,9 @@ fPiezes: String representing the pieces of the current player.
 12. VerificateMoveJaque
 Purpose: Verifies if any move can remove the check state.
 Parameters:
-positions: Current board state.
-counter: Tracks the current index being processed.
-turn: Current player's turn.
+-positions: Current board state.
+-counter: Tracks the current index being processed.
+-turn: Current player's turn.
 |#
 (define (VerificateMoveJaque positions counter turn)
     (if (< counter (string-length positions))
@@ -1848,6 +1848,24 @@ turn: Current player's turn.
         #t
     )
 )
+#|
+Function: VerificateMove
+Purpose: Verifies if any move can prevent the king from being in check.
+Parameters:
+- positions: Current board state as a string.
+- counter: Tracks the current index being processed.
+- turn: Current player's turn (0 for white, 1 for black).
+- posKing: Index of the king being checked.
+Internal Variables:
+- blackPiezesV: String representing black pieces that can attack ("TRACP").
+- whitePiezesV: String representing white pieces that can attack ("tracp").
+- blackPiezes: String representing all black pieces ("-TCARYP").
+- whitePiezes: String representing all white pieces ("-tcaryp").
+Behavior:
+- Iterates through all pieces on the board to check if any move can prevent the king from being in check.
+- Calls the `DetectPreJaque` function to determine if a move resolves the check.
+- Returns `#t` if the check can be resolved, otherwise `#f`.
+|#
 (define (VerificateMove positions counter turn posKing)
     (define blackPiezesV "TRACP")
     (define whitePiezesV "tracp")
@@ -1870,6 +1888,23 @@ turn: Current player's turn.
         )
     )
 )
+#|
+Function: DetectPreJaque
+Purpose: Detects if a specific piece can attack the king's position, potentially causing a check.
+Parameters:
+- positions: Current board state as a string.
+- piezeV: The piece being checked for potential attacks.
+- indexV: Index of the piece being checked.
+- turn: Current player's turn (0 for white, 1 for black).
+- jaqueState: Indicates if the king is in check (1 for check, 0 otherwise).
+- fPiezes: String representing the pieces of the current player
+- piezes: String representing the pieces of the opposing player.
+- posKing: Index of the king being checked.
+Behavior:
+- Checks if the specified piece (`piezeV`) can attack the king's position (`posKing`).
+- Calls movement functions (`MoveTorreAndQueen`, `MoveAlfilAndQueen`, `MoveHorse`, `MovePeon`) to validate potential attacks.
+- Returns `1` if the piece can attack the king, otherwise `0`.
+|#
 (define (DetectPreJaque positions piezeV indexV turn jaqueState fPiezes piezes posKing)
     (if (= jaqueState 0)
         (if (equal? (~a piezeV) (~a (string-ref piezes 0)))
