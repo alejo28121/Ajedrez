@@ -46,7 +46,6 @@ Parameters:
     (define colorCube "0101010110101010010101011010101001010101101010100101010110101010")
     (define coordinates (make-posn (+ 100 (* (remainder counter 8) 50)) (+ 100 (* (quotient counter 8) 50))))
     (define piezeG (string-ref positions counter))
-    (printf "~a" jaqueState)
     (if (and (= counter 0) (= jaqueState 1))
         (begin
             ((draw-pixmap board) "PiezasAjedrez/Jaque.png" (make-posn 565 290))
