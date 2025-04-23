@@ -1955,5 +1955,4 @@ Behavior:
         jaqueState
     )
 )
-;(DrawPiezes "TCARYACTPPPPPPPP--------------------------------pppppppptcaryact" 0 0 0 #\t 0 "")
-(DrawPiezes "-----Y------T-P--PA-pP---------PP----p----p-----pp--t-pp---t---y" 63 0 0 #\t 0 "")
+(DrawPiezes "TCARYACTPPPPPPPP--------------------------------pppppppptcaryact" 0 0 0 #\t 0 "")
